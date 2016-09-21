@@ -1,0 +1,39 @@
+{
+  "name": "we-passport-oauth2-password",
+  "description": "We.js passport oauth2 password grant type plugin",
+  "version": "1.0.0",
+  "main": "plugin.js",
+  "scripts": {
+    "test": "NODE_ENV=test LOG_LV=info ./node_modules/.bin/mocha test/bootstrap.js test/**/*.test.js"
+  },
+  "dependencies": {
+    "passport-oauth2-password-grant": "0.0.4",
+    "we-plugin-acl": "^1.2.8",
+    "we-plugin-auth": "^1.1.4",
+    "we-plugin-user": "^1.1.2"
+  },
+  "devDependencies": {
+    "express-mysql-session": "^1.1.1",
+    "mysql": "^2.11.1",
+    "fs-extra": "^0.30.0",
+    "mocha": "^2.5.3",
+    "rimraf": "^2.5.2",
+    "supertest": "^1.2.0",
+    "we-core": "wejs/we-core",
+    "we-test-tools": "wejs/we-test-tools"
+  },
+  "license": "MIT",
+  "keywords": [
+    "wejs-plugin",
+    "passport",
+    "oauth2"
+  ],
+  "wejs": {
+    "plugins": {
+      "we-plugin-user": true,
+      "we-plugin-auth": true,
+      "we-plugin-acl": true
+    },
+    "devPlugins": {}
+  }
+}
