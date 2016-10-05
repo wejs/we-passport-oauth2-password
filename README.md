@@ -1,9 +1,9 @@
 # we-plugin-passport-oauth2-password-grant
 
-> [write something about your plugin here]
+The client credentials grant type provides an application a way to access its own service account. Examples of when this might be useful include if an application wants to update its registered description or redirect URI, or access other data stored in its service account via the API.
+
 
 # API
-
 
 ## Links
 
@@ -11,4 +11,4 @@
 
 ## Copyright and license
 
-Copyright 2013-2015 [your name] <[your email@email]> and contributors , under [the MIT license](LICENSE).
+Copyright Alberto Souza <contato@albertosouza.net> and contributors , under [the MIT license](LICENSE.md).
