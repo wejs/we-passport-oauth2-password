@@ -7,7 +7,7 @@ module.exports = {
 
       if (err) return res.serverError(err);
       // TODO add message here ...
-      if (!user) return res.badRequest(info);
+      if (!req.user) return res.badRequest(info);
 
       var expireDate = req.we.utils.moment().add(
         req.we.config.passport.strategies['oauth2-password-grant'].expires_in,
