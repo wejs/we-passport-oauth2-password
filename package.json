@@ -22,13 +22,15 @@
     "we-core": "wejs/we-core",
     "we-test-tools": "wejs/we-test-tools"
   },
-  "license": "MIT",
   "keywords": [
     "wejs-plugin",
     "passport",
     "password",
     "oauth2"
   ],
+  "repository": "wejs/we-passport-oauth2-password",
+  "author": "Alberto Souza <contato@albertosouza.net>",
+  "license": "MIT",
   "wejs": {
     "dependencies": {
       "we-plugin-user": true,
