@@ -1,33 +1,43 @@
 /**
- * Plugin.js file, set configs, routes, hooks and events here
+ * We.js Passport oauth2 password grant strategy
  *
  * see http://wejs.org/docs/we/plugin
  */
 
+var Strategy = require('./lib/Strategy');
+
 module.exports = function loadPlugin(projectPath, Plugin) {
   var plugin = new Plugin(__dirname);
-
-  // passport.use(new PasswordGrantStrategy(plugin.we.config.appKeys.oauth2GrandPassword,
-  // function(accessToken, refreshToken, profile, done) {
-  //   done(null, profile);
-  // });
 
   // set plugin configs
   plugin.setConfigs({
     passport: {
       strategies: {
         // session
+        'oauth2-password-grant': {
+          expires_in: 1800, // ms
+          Strategy: Strategy,
+          findUser: function findUser(accessToken, done) {
 
-        // passwordGrant: {
-        //   Strategy: PasswordGrantStrategy,
-        //   tokenURL: plugin.we.config.hostname + '/auth/grant-password/authenticate',
-        //   clientID: 'EXAMPLE_CLIENT_ID',
-        //   findUser: function findUser(accessToken, refreshToken, profile, done) {
+            this.we.db.models.passportGrantToken.findOne({
+              where: {
+                token: accessToken,
+                expireDate: { $gte: new Date() }
+              },
+              include: [{ model: this.we.db.models.user, as: 'owner' }]
+            })
+            .then(function(token) {
+              if (!token) {
+                done(null, false, 'passportGrantToken.invalid.token');
+              } else {
+                done(null, token.owner);
+              }
 
-        //     console.log('on find ...');
-
-        //   }
-        // }
+              return null;
+            })
+            .catch(done);
+          }
+        }
       }
     }
   });
@@ -42,18 +52,35 @@ module.exports = function loadPlugin(projectPath, Plugin) {
 
   plugin.events.on('we:after:load:passport', function afterLoadExpress(we) {
 
+    we.express.use(function (req, res, next) {
+      we.passport.authenticate('oauth2-password-grant', function afterCheckToken (err, user, info) {
+        if (err) return res.serverError(err);
+
+        if (info) {
+          // req.we.log.verbose('OAuth2password:afterCheckToken:', err, info);
+          return res.badRequest({ message: info });
+        }
+
+        // set is is authenticated
+        if (user) req.user = user;
+
+        next();
+      })(req, res, next);
+    });
+
     // for dev env ...
     if (we.env == 'test') {
       // Some secure method
       we.express.get('/auth/grant-password/protected', function (req, res) {
         if (req.isAuthenticated()) {
-          res.send({ authenticated: true });
+          res.send({ authenticated: true, user: req.user });
         } else {
           res.send({ authenticated: false });
         }
       });
     }
   });
+
 
   return plugin;
 };

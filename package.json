@@ -1,12 +1,14 @@
 {
   "name": "we-passport-oauth2-password",
-  "description": "We.js passport oauth2 password grant type plugin",
+  "description": "We.js Passport oauth2 password grant strategy plugin",
   "version": "1.0.0",
   "main": "plugin.js",
   "scripts": {
     "test": "NODE_ENV=test LOG_LV=info ./node_modules/.bin/mocha test/bootstrap.js test/**/*.test.js"
   },
-  "dependencies": {},
+  "dependencies": {
+    "uuid": "^2.0.3"
+  },
   "devDependencies": {
     "we-plugin-acl": "^1.2.8",
     "we-plugin-auth": "^1.1.4",
@@ -28,6 +30,10 @@
     "oauth2"
   ],
   "wejs": {
+    "dependencies": {
+      "we-plugin-user": true,
+      "we-plugin-auth": true
+    },
     "plugins": {
       "we-plugin-user": true,
       "we-plugin-auth": true,

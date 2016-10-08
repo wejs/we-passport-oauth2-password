@@ -1,6 +1,21 @@
 {
   "attributes": {
-
+    "token": {
+      "type": "STRING",
+      "unique": true,
+      "defaultValue": true
+    },
+    "scopes": {
+      "type": "TEXT"
+    },
+    "expireDate": {
+      "type": "DATE",
+      "allowNull": false
+    },
+    "isValid": {
+      "type": "BOOLEAN",
+      "defaultValue": true
+    }
   },
   "associations": {
     "owner": {
@@ -10,7 +25,7 @@
     }
   },
   "hooks": {
-    "afterCreate": []
+    "beforeCreate": ["createPassportGrantToken"]
   }
 }
 
