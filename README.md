@@ -41,7 +41,8 @@ Response example:
 
 ## Links
 
-> * We.js site: http://wejs.org
+- We.js site: http://wejs.org
+- Resource Owner Password Credentials Grant SPEC: https://tools.ietf.org/html/rfc6749#section-4.3
 
 ## Copyright and license
 
