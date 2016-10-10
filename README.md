@@ -36,7 +36,6 @@ Response example:
 ## ROADMAP
 
 - Add revoke token url
-- Add refresh_token url
 - Add delete  invalid tokens every time
 
 ## Links
