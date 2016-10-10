@@ -3,7 +3,19 @@ module.exports = {
     if (!req.body.email && req.body.username)
       req.body.email = req.body.username;
 
-    req.we.passport.authenticate('local')(req, res, function (err, user, info) {
+    if (
+      !req.body.grant_type ||
+      (req.body.grant_type != 'password')
+    ) {
+      return res.status(400).send({
+        error_context: 'authentication',
+        error: 'unsupported_grant_type',
+        error_description_code: 'oauth2-password-grant.grant_type.invalid.or.not.set'
+      });
+    }
+
+    req.we.passport
+    .authenticate('local')(req, res, function (err, user, info) {
 
       if (err) return res.serverError(err);
       // TODO add message here ...

@@ -28,7 +28,10 @@ module.exports = function loadPlugin(projectPath, Plugin) {
             })
             .then(function(token) {
               if (!token) {
-                done(null, false, 'passportGrantToken.invalid.token');
+                done(null, false, {
+                  error_context: 'authentication',
+                  error: 'invalid_grant'
+                });
               } else {
                 done(null, token.owner);
               }
@@ -57,8 +60,8 @@ module.exports = function loadPlugin(projectPath, Plugin) {
         if (err) return res.serverError(err);
 
         if (info) {
-          // req.we.log.verbose('OAuth2password:afterCheckToken:', err, info);
-          return res.badRequest({ message: info });
+          req.we.log.verbose('OAuth2password:afterCheckToken:', err, info);
+          return res.status(401).send(info);
         }
 
         // set is is authenticated
