@@ -22,12 +22,13 @@ module.exports = function loadPlugin(projectPath, Plugin) {
             this.we.db.models.passportGrantToken.findOne({
               where: {
                 access_token: access_token,
-                expireDate: { $gte: new Date() }
+                expireDate: {
+                  $gte: this.we.db.defaultConnection.fn('NOW')
+                }
               },
               include: [{ model: this.we.db.models.user, as: 'owner' }]
             })
             .then(function(token) {
-
               if (!token) {
                 done(null, false, {
                   error_context: 'authentication',

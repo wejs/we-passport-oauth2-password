@@ -2,6 +2,7 @@ var assert = require('assert');
 var request = require('supertest');
 var helpers = require('we-test-tools').helpers;
 var stubs = require('we-test-tools').stubs;
+var generateToken = require('../../../lib/generateToken');
 var http;
 var we;
 var agent;
@@ -193,6 +194,39 @@ describe('passport-oauth2-password-grant', function() {
           assert.equal(res.body.error, 'invalid_grant', 'error should be invalid_grant');
 
           done();
+        });
+      });
+
+      it ('2Should return { error: invalid_grant } with code 401 for expired tokens', function(done) {
+        var ar = request.agent(http);
+
+         var moment = we.utils.moment;
+
+        generateToken(we, salvedUser, function(err, tokenRecord) {
+          if (err) return done(err);
+
+        tokenRecord.expireDate = moment(tokenRecord.createdAt)
+          .subtract(2, 'minutes').toISOString();
+
+        tokenRecord.save().then(function() {
+
+          ar.get('/auth/grant-password/protected')
+          .set('Accept', 'application/json')
+          .set('Authorization', 'Basic ' + tokenRecord.access_token)
+          .expect(401)
+          .end(function(err, res) {
+            if (err) {
+              console.log('<res.text>', res.text);
+              throw err;
+            }
+
+            assert(res.body.error, 'should include error code in body');
+            assert.equal(res.body.error, 'invalid_grant', 'error should be invalid_grant');
+
+            done();
+          });
+        }).catch(done);
+
         });
       });
 

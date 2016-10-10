@@ -17,7 +17,8 @@ before(function(callback) {
       i18n: {
         directory: path.join(__dirname, 'locales'),
         updateFiles: true
-      }
+      },
+      enableRequestLog: false
     } , function(err, we) {
       if (err) throw err;
 
