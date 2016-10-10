@@ -90,6 +90,56 @@ describe('passport-oauth2-password-grant', function() {
     });
     it ('Should invalidate the token');
 
+    describe('refresh_token', function(){
+      it ('Should refresh token', function(done) {
+        var ar = request.agent(http);
+        ar.post('/auth/grant-password/authenticate')
+        .set('Accept', 'application/json')
+        .send({
+          grant_type: 'password',
+          email: salvedUser.email,
+          password: salvedUserPassword
+        })
+        .expect(200)
+        .end(function (err, res) {
+          if (err) {
+            console.log('<res.text>', res.text);
+            throw err;
+          }
+
+          assert(res.body.access_token);
+          assert(res.body.refresh_token);
+          assert(res.body.user);
+          assert.equal(res.body.user.id, salvedUser.id);
+
+          var ar = request.agent(http);
+          ar.post('/auth/grant-password/authenticate')
+          .set('Accept', 'application/json')
+          .send({
+            grant_type: 'refresh_token',
+            refresh_token: res.body.refresh_token
+          })
+          .expect(200)
+          .end(function (err, res2) {
+            if (err) {
+              console.log('<res.text>', res.text);
+              throw err;
+            }
+
+            assert(res2.body.access_token);
+            assert(res2.body.refresh_token);
+            assert(res2.body.user);
+            assert.equal(res2.body.user.id, salvedUser.id);
+
+            assert(res.body.access_token != res2.body.access_token);
+            assert(res.body.refresh_token != res2.body.refresh_token);
+
+            done();
+          });
+        });
+      });
+    });
+
     describe('Errors', function() {
       /*
          invalid_request

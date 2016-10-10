@@ -17,11 +17,11 @@ module.exports = function loadPlugin(projectPath, Plugin) {
         'oauth2-password-grant': {
           expires_in: 1800, // ms
           Strategy: Strategy,
-          findUser: function findUser(accessToken, done) {
+          findUser: function findUser(access_token, done) {
 
             this.we.db.models.passportGrantToken.findOne({
               where: {
-                token: accessToken,
+                access_token: access_token,
                 expireDate: { $gte: new Date() }
               },
               include: [{ model: this.we.db.models.user, as: 'owner' }]
@@ -83,7 +83,6 @@ module.exports = function loadPlugin(projectPath, Plugin) {
       });
     }
   });
-
 
   return plugin;
 };

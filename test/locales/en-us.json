@@ -2,5 +2,9 @@
 	"response.serveError.title": "response.serveError.title",
 	"ER_BAD_FIELD_ERROR: Unknown column 'token' in 'field list'": "ER_BAD_FIELD_ERROR: Unknown column 'token' in 'field list'",
 	"expireDate cannot be null": "expireDate cannot be null",
-	"ER_BAD_FIELD_ERROR: Unknown column 'expireDate' in 'field list'": "ER_BAD_FIELD_ERROR: Unknown column 'expireDate' in 'field list'"
+	"ER_BAD_FIELD_ERROR: Unknown column 'expireDate' in 'field list'": "ER_BAD_FIELD_ERROR: Unknown column 'expireDate' in 'field list'",
+	"unknowError": "unknowError",
+	"access_token cannot be null": "access_token cannot be null",
+	"refresh_token cannot be null": "refresh_token cannot be null",
+	"ER_BAD_FIELD_ERROR: Unknown column 'access_token' in 'field list'": "ER_BAD_FIELD_ERROR: Unknown column 'access_token' in 'field list'"
 }

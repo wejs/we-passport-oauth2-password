@@ -1,9 +1,17 @@
 {
   "attributes": {
-    "token": {
+    "access_token": {
       "type": "STRING",
       "unique": true,
-      "defaultValue": true
+      "allowNull": false
+    },
+    "refresh_token": {
+      "type": "STRING",
+      "unique": true,
+      "allowNull": false
+    },
+    "token_type": {
+      "type": "STRING"
     },
     "scopes": {
       "type": "TEXT"
@@ -25,7 +33,7 @@
     }
   },
   "hooks": {
-    "beforeCreate": ["createPassportGrantToken"]
+    "beforeValidate": ["createPassportGrantToken"]
   }
 }
 
