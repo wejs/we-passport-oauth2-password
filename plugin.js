@@ -15,7 +15,7 @@ module.exports = function loadPlugin(projectPath, Plugin) {
       strategies: {
         // session
         'oauth2-password-grant': {
-          expires_in: 1800, // ms
+          expires_in: 1800, // secconds
           Strategy: Strategy,
           findUser: function findUser(access_token, done) {
 
@@ -27,6 +27,7 @@ module.exports = function loadPlugin(projectPath, Plugin) {
               include: [{ model: this.we.db.models.user, as: 'owner' }]
             })
             .then(function(token) {
+
               if (!token) {
                 done(null, false, {
                   error_context: 'authentication',
@@ -60,7 +61,7 @@ module.exports = function loadPlugin(projectPath, Plugin) {
         if (err) return res.serverError(err);
 
         if (info) {
-          req.we.log.verbose('OAuth2password:afterCheckToken:', err, info);
+          req.we.log.verbose('OAuth2password:afterCheckToken:', info);
           return res.status(401).send(info);
         }
 
