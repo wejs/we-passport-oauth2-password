@@ -24,7 +24,8 @@ module.exports = function loadPlugin(projectPath, Plugin) {
                 access_token: access_token,
                 expireDate: {
                   $gte: this.we.db.defaultConnection.fn('NOW')
-                }
+                },
+                isValid: true
               },
               include: [{ model: this.we.db.models.user, as: 'owner' }]
             })
