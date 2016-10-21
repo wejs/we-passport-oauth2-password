@@ -17,7 +17,7 @@
       "type": "TEXT"
     },
     "expireDate": {
-      "type": "INTEGER",
+      "type": "DATE",
       "allowNull": false
     },
     "isValid": {
