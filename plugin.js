@@ -42,6 +42,8 @@ module.exports = function loadPlugin(projectPath, Plugin) {
               return null;
             })
             .catch(done);
+
+            return null;
           }
         }
       }
