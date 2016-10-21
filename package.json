@@ -34,7 +34,8 @@
   "wejs": {
     "dependencies": {
       "we-plugin-user": true,
-      "we-plugin-auth": true
+      "we-plugin-auth": true,
+      "we-plugin-acl": true
     },
     "plugins": {
       "we-plugin-user": true,
