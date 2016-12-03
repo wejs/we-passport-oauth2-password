@@ -58,24 +58,30 @@ module.exports = function loadPlugin(projectPath, Plugin) {
     }
   });
 
-  plugin.events.on('we:after:load:passport', function afterLoadExpress(we) {
+  plugin.oauth2PassportGrantMD = function (req, res, next) {
+    req.we.passport.authenticate('oauth2-password-grant', function afterCheckToken (err, user, info) {
+      if (err) return res.serverError(err);
 
-    we.express.use(function (req, res, next) {
-      we.passport.authenticate('oauth2-password-grant', function afterCheckToken (err, user, info) {
-        if (err) return res.serverError(err);
+      if (info) {
+        req.we.log.verbose('OAuth2password:afterCheckToken:', info);
 
-        if (info) {
-          req.we.log.verbose('OAuth2password:afterCheckToken:', info);
-          return res.status(401).send(info);
-        }
+        res.status(401).send(info);
 
+      } else {
         // set is is authenticated
         if (user) req.user = user;
-
         next();
-      })(req, res, next);
-    });
+      }
 
+      return null;
+    })(req, res, next);
+  }
+
+  plugin.events.on('router:route:after:cors:middleware', function onSetACLMiddlewareExpress(ctx) {
+    ctx.middlewares.push(plugin.oauth2PassportGrantMD);
+  });
+
+  plugin.events.on('we:after:load:passport', function afterLoadExpress(we) {
     // for dev env ...
     if (we.env == 'test') {
       // Some secure method
