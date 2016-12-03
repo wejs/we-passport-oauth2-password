@@ -50,15 +50,25 @@ module.exports = function loadPlugin(projectPath, Plugin) {
     }
   });
 
-  // plugin routes
-  plugin.setRoutes({
+  var routes = {
     'post /auth/grant-password/authenticate': {
       controller: 'passwordOauth2GrantStrategy',
       action: 'authenticate'
     }
-  });
+  };
 
-  plugin.oauth2PassportGrantMD = function (req, res, next) {
+  // for dev env ...
+  if (plugin.we.env == 'test') {
+    routes['get /auth/grant-password/protected'] = {
+      controller: 'passwordOauth2GrantStrategy',
+      action: 'protectedRoute'
+    };
+  }
+
+  // plugin routes
+  plugin.setRoutes(routes);
+
+  plugin.oauth2PassportGrantMD = function oauth2PassportGrantMD(req, res, next) {
     req.we.passport.authenticate('oauth2-password-grant', function afterCheckToken (err, user, info) {
       if (err) return res.serverError(err);
 
@@ -77,22 +87,9 @@ module.exports = function loadPlugin(projectPath, Plugin) {
     })(req, res, next);
   }
 
+  // add the middleware in every route after CORST
   plugin.events.on('router:route:after:cors:middleware', function onSetACLMiddlewareExpress(ctx) {
     ctx.middlewares.push(plugin.oauth2PassportGrantMD);
-  });
-
-  plugin.events.on('we:after:load:passport', function afterLoadExpress(we) {
-    // for dev env ...
-    if (we.env == 'test') {
-      // Some secure method
-      we.express.get('/auth/grant-password/protected', function (req, res) {
-        if (req.isAuthenticated()) {
-          res.send({ authenticated: true, user: req.user });
-        } else {
-          res.send({ authenticated: false });
-        }
-      });
-    }
   });
 
   return plugin;

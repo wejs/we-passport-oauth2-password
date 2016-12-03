@@ -88,5 +88,16 @@ module.exports = {
       return null;
     })
     .catch(res.queryError);
+  },
+
+  /**
+   * Protected route only for tests
+   */
+  protectedRoute: function protectedRoute(req, res) {
+    if (req.isAuthenticated()) {
+      res.send({ authenticated: true, user: req.user });
+    } else {
+      res.send({ authenticated: false });
+    }
   }
 }
