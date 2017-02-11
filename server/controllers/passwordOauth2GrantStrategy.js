@@ -1,7 +1,7 @@
-var generateToken = require('../../lib/generateToken');
+const generateToken = require('../../lib/generateToken');
 
 module.exports = {
-  authenticate: function authenticate(req, res, next) {
+  authenticate(req, res, next) {
     if (!req.body.email && req.body.username)
       req.body.email = req.body.username;
 
@@ -19,9 +19,9 @@ module.exports = {
     }
 
     req.we.passport
-    .authenticate('local', function (err, user, info) {
+    .authenticate('local', (err, user, info)=> {
       if (err) return res.serverError(err);
-      // TODO add message here ...
+      if (!req.user && user) req.user = user;
       if (!req.user && info) {
         if (info.message) {
           res.addMessage('error', {
@@ -36,7 +36,7 @@ module.exports = {
         }
       }
 
-      generateToken(req.we, req.user, function(err, tokenRecord) {
+      generateToken(req.we, req.user, (err, tokenRecord)=> {
         if (err) return res.queryError(err);
 
         res.status(200).send({
@@ -54,8 +54,8 @@ module.exports = {
     })(req, res, next);
   },
 
-  refreshToken: function refreshToken(req, res) {
-    var models = req.we.db.models;
+  refreshToken(req, res) {
+    const models = req.we.db.models;
 
     models.passportGrantToken.findOne({
       where: {
@@ -67,7 +67,7 @@ module.exports = {
         as: 'owner'
       }]
     })
-    .then(function(token) {
+    .then( (token)=> {
 
       if (!token) {
         return res.status(401).send({
@@ -76,7 +76,7 @@ module.exports = {
           error_description_code: 'oauth2-password-grant.refresh_token.invalid'
         });
       } else {
-        generateToken(req.we, token.owner, function(err, tokenRecord) {
+        generateToken(req.we, token.owner, (err, tokenRecord)=> {
           if (err) return res.queryError(err);
 
           res.status(200).send({
@@ -105,11 +105,11 @@ module.exports = {
   /**
    * Protected route only for tests
    */
-  protectedRoute: function protectedRoute(req, res) {
+  protectedRoute(req, res) {
     if (req.isAuthenticated()) {
       res.send({ authenticated: true, user: req.user });
     } else {
       res.send({ authenticated: false });
     }
   }
-}
+};

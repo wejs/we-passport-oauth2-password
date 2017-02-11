@@ -1,5 +1,5 @@
-var crypto = require('crypto');
-var uuid = require('uuid');
+const crypto = require('crypto'),
+  uuid = require('uuid');
 
 module.exports = function createPassportGrantToken (record, options, done) {
   // unique random strings for tokens
@@ -10,4 +10,4 @@ module.exports = function createPassportGrantToken (record, options, done) {
   record.refresh_token = uuid.v4() + crypto.randomBytes(35).toString('hex');
 
   return done();
-}
+};

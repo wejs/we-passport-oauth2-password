@@ -1,14 +1,12 @@
-var assert = require('assert');
-var request = require('supertest');
-var helpers = require('we-test-tools').helpers;
-var stubs = require('we-test-tools').stubs;
-var generateToken = require('../../../lib/generateToken');
-var http;
-var we;
-var agent;
+const assert = require('assert'),
+  request = require('supertest'),
+  helpers = require('we-test-tools').helpers,
+  stubs = require('we-test-tools').stubs,
+  generateToken = require('../../../lib/generateToken');
+
+let http, we, agent, salvedUser, salvedUserPassword;
 
 describe('passport-oauth2-password-grant', function() {
-  var salvedUser, salvedUserPassword;
 
   before(function (done) {
     http = helpers.getHttp();
@@ -16,21 +14,21 @@ describe('passport-oauth2-password-grant', function() {
 
     we = helpers.getWe();
 
-    var userStub = stubs.userStub();
-    helpers.createUser(userStub, function(err, user) {
+    const userStub = stubs.userStub();
+    helpers.createUser(userStub, (err, user)=> {
       if (err) throw err;
 
       salvedUser = user;
       salvedUserPassword = userStub.password;
 
       done(err);
-    })
+    });
   });
 
   describe('API', function () {
     it ('Should load passport oauth 2 grant type middleware');
     it ('Should authenticate one user', function(done) {
-      var ar = request.agent(http);
+      let ar = request.agent(http);
       ar.post('/auth/grant-password/authenticate')
       .set('Accept', 'application/json')
       .send({
@@ -53,7 +51,7 @@ describe('passport-oauth2-password-grant', function() {
       });
     });
     it ('Should request an protected page', function(done) {
-      var ar = request.agent(http);
+      let ar = request.agent(http);
       ar.post('/auth/grant-password/authenticate')
       .set('Accept', 'application/json')
       .send({
@@ -93,7 +91,7 @@ describe('passport-oauth2-password-grant', function() {
 
     describe('refresh_token', function(){
       it ('Should refresh token', function(done) {
-        var ar = request.agent(http);
+        let ar = request.agent(http);
         ar.post('/auth/grant-password/authenticate')
         .set('Accept', 'application/json')
         .send({
@@ -113,7 +111,7 @@ describe('passport-oauth2-password-grant', function() {
           assert(res.body.user);
           assert.equal(res.body.user.id, salvedUser.id);
 
-          var ar = request.agent(http);
+          let ar = request.agent(http);
           ar.post('/auth/grant-password/authenticate')
           .set('Accept', 'application/json')
           .send({
@@ -176,9 +174,9 @@ describe('passport-oauth2-password-grant', function() {
                another client.
        */
       it ('Should return { error: invalid_grant } with code 401 for client authentication failure', function(done) {
-        var ar = request.agent(http);
+        let ar = request.agent(http);
 
-        var invalidToken = 'aninvalidtoken';
+        let invalidToken = 'aninvalidtoken';
 
         ar.get('/auth/grant-password/protected')
         .set('Accept', 'application/json')
@@ -198,9 +196,8 @@ describe('passport-oauth2-password-grant', function() {
       });
 
       it ('2Should return { error: invalid_grant } with code 401 for expired tokens', function(done) {
-        var ar = request.agent(http);
-
-         var moment = we.utils.moment;
+        let ar = request.agent(http),
+          moment = we.utils.moment;
 
         generateToken(we, salvedUser, function(err, tokenRecord) {
           if (err) return done(err);
@@ -246,7 +243,7 @@ describe('passport-oauth2-password-grant', function() {
 
       it ('Should return { error: unsupported_grant_type } if grant type is not set', function(done) {
 
-        var ar = request.agent(http);
+        let ar = request.agent(http);
         ar.post('/auth/grant-password/authenticate')
         .set('Accept', 'application/json')
         .send({
@@ -270,7 +267,7 @@ describe('passport-oauth2-password-grant', function() {
 
       it ('Should return { error: unsupported_grant_type } if grant type is invalid', function(done) {
 
-        var ar = request.agent(http);
+        let ar = request.agent(http);
         ar.post('/auth/grant-password/authenticate')
         .set('Accept', 'application/json')
         .send({

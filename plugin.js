@@ -4,10 +4,10 @@
  * see http://wejs.org/docs/we/plugin
  */
 
-var Strategy = require('./lib/Strategy');
+const Strategy = require('./lib/Strategy');
 
 module.exports = function loadPlugin(projectPath, Plugin) {
-  var plugin = new Plugin(__dirname);
+  const plugin = new Plugin(__dirname);
 
   // set plugin configs
   plugin.setConfigs({
@@ -17,9 +17,10 @@ module.exports = function loadPlugin(projectPath, Plugin) {
         'oauth2-password-grant': {
           expires_in: 1800, // secconds
           Strategy: Strategy,
-          findUser: function findUser(access_token, done) {
+          findUser(access_token, done) {
 
-            this.we.db.models.passportGrantToken.findOne({
+            this.we.db.models.passportGrantToken
+            .findOne({
               where: {
                 access_token: access_token,
                 expireDate: {
@@ -29,7 +30,7 @@ module.exports = function loadPlugin(projectPath, Plugin) {
               },
               include: [{ model: this.we.db.models.user, as: 'owner' }]
             })
-            .then(function(token) {
+            .then( (token)=> {
               if (!token) {
                 done(null, false, {
                   error_context: 'authentication',
@@ -50,7 +51,7 @@ module.exports = function loadPlugin(projectPath, Plugin) {
     }
   });
 
-  var routes = {
+  const routes = {
     'post /auth/grant-password/authenticate': {
       controller: 'passwordOauth2GrantStrategy',
       action: 'authenticate',
@@ -71,7 +72,8 @@ module.exports = function loadPlugin(projectPath, Plugin) {
   plugin.setRoutes(routes);
 
   plugin.oauth2PassportGrantMD = function oauth2PassportGrantMD(req, res, next) {
-    req.we.passport.authenticate('oauth2-password-grant', function afterCheckToken (err, user, info) {
+    req.we.passport
+    .authenticate('oauth2-password-grant', function afterCheckToken (err, user, info) {
       if (err) return res.serverError(err);
 
       if (info) {
@@ -87,7 +89,7 @@ module.exports = function loadPlugin(projectPath, Plugin) {
 
       return null;
     })(req, res, next);
-  }
+  };
 
   // add the middleware in every route after CORST
   plugin.events.on('router:route:after:cors:middleware', function onSetACLMiddlewareExpress(ctx) {
