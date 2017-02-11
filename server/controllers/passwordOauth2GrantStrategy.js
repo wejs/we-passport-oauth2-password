@@ -19,10 +19,22 @@ module.exports = {
     }
 
     req.we.passport
-    .authenticate('local')(req, res, function (err, user, info) {
+    .authenticate('local', function (err, user, info) {
       if (err) return res.serverError(err);
       // TODO add message here ...
-      if (!req.user && info) return res.badRequest(info);
+      if (!req.user && info) {
+        if (info.message) {
+          res.addMessage('error', {
+            // i18n string
+            text: info.message,
+            // vars avaible in i18n string
+            vars: info
+          });
+          return res.badRequest(info);
+        } else {
+          return res.status(401).send(info);
+        }
+      }
 
       generateToken(req.we, req.user, function(err, tokenRecord) {
         if (err) return res.queryError(err);
@@ -39,7 +51,7 @@ module.exports = {
 
         return null;
       });
-    });
+    })(req, res, next);
   },
 
   refreshToken: function refreshToken(req, res) {
