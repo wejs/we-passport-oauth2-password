@@ -53,7 +53,8 @@ module.exports = function loadPlugin(projectPath, Plugin) {
   var routes = {
     'post /auth/grant-password/authenticate': {
       controller: 'passwordOauth2GrantStrategy',
-      action: 'authenticate'
+      action: 'authenticate',
+      responseType: 'json'
     }
   };
 
@@ -61,7 +62,8 @@ module.exports = function loadPlugin(projectPath, Plugin) {
   if (plugin.we.env == 'test') {
     routes['get /auth/grant-password/protected'] = {
       controller: 'passwordOauth2GrantStrategy',
-      action: 'protectedRoute'
+      action: 'protectedRoute',
+      responseType: 'json'
     };
   }
 
