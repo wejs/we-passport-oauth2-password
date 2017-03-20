@@ -10,14 +10,14 @@
     "uuid": "^3.0.1"
   },
   "devDependencies": {
-    "we-plugin-acl": "^1.2.8",
+    "we-plugin-acl": "^1.2.10",
     "we-plugin-auth": "^1.2.1",
-    "we-plugin-user": "^1.1.4",
+    "we-plugin-user": "^1.1.6",
     "express-mysql-session": "^1.2.0",
     "mysql": "^2.13.0",
-    "fs-extra": "^2.0.0",
+    "fs-extra": "^2.1.2",
     "mocha": "^3.2.0",
-    "rimraf": "^2.5.4",
+    "rimraf": "^2.6.1",
     "supertest": "^3.0.0",
     "we-core": "wejs/we-core",
     "we-test-tools": "wejs/we-test-tools"
