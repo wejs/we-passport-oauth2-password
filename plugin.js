@@ -8,6 +8,8 @@ const Strategy = require('./lib/Strategy');
 
 module.exports = function loadPlugin(projectPath, Plugin) {
   const plugin = new Plugin(__dirname);
+  // Set the generate token method for reuse in others plugins:
+  plugin.generateToken = require('./lib/generateToken');
 
   // set plugin configs
   plugin.setConfigs({

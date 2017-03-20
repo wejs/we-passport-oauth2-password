@@ -1,6 +1,18 @@
 const generateToken = require('../../lib/generateToken');
 
 module.exports = {
+  /**
+   * Passport oauth 2 authentication action
+   *
+   * @apiName passwordOauth2GrantStrategy.authenticate
+   * @apiGroup passwordOauth2GrantStrategy
+   *
+   * @module Controller
+   *
+   * @param {Object} `req` Express.js request
+   * @param {Object} `res` Express.js response
+   * @param  {Function} next Express.js next middleware callback
+   */
   authenticate(req, res, next) {
     if (!req.body.email && req.body.username)
       req.body.email = req.body.username;
@@ -54,6 +66,18 @@ module.exports = {
     })(req, res, next);
   },
 
+  /**
+   * Passport oauth 2 refresh token action
+   *
+   * @apiName passwordOauth2GrantStrategy.refreshToken
+   * @apiGroup passwordOauth2GrantStrategy
+   *
+   * @module Controller
+   *
+   * @param {Object} `req` Express.js request
+   * @param {Object} `res` Express.js response
+   * @param  {Function} next Express.js next middleware callback
+   */
   refreshToken(req, res) {
     const models = req.we.db.models;
 
