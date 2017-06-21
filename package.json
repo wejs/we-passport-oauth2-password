@@ -7,16 +7,16 @@
     "test": "NODE_ENV=test LOG_LV=info ./node_modules/.bin/mocha test/bootstrap.js test/**/*.test.js"
   },
   "dependencies": {
-    "uuid": "^3.0.1"
+    "uuid": "^3.1.0"
   },
   "devDependencies": {
-    "we-plugin-acl": "^1.2.10",
+    "we-plugin-acl": "^1.2.11",
     "we-plugin-auth": "^1.2.1",
     "we-plugin-user": "^1.1.6",
-    "express-mysql-session": "^1.2.0",
+    "express-mysql-session": "^1.2.1",
     "mysql": "^2.13.0",
-    "fs-extra": "^2.1.2",
-    "mocha": "^3.2.0",
+    "fs-extra": "^3.0.1",
+    "mocha": "^3.4.2",
     "rimraf": "^2.6.1",
     "supertest": "^3.0.0",
     "we-core": "wejs/we-core",

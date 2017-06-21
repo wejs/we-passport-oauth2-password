@@ -1,10 +1,9 @@
 const assert = require('assert'),
   request = require('supertest'),
   helpers = require('we-test-tools').helpers,
-  stubs = require('we-test-tools').stubs,
-  generateToken = require('../../../lib/generateToken');
+  stubs = require('we-test-tools').stubs;
 
-let http, we, agent, salvedUser, salvedUserPassword;
+let http, we, agent, salvedUser, salvedUserPassword, generateToken;
 
 describe('passport-oauth2-password-grant', function() {
 
@@ -13,6 +12,9 @@ describe('passport-oauth2-password-grant', function() {
     agent = request.agent(http);
 
     we = helpers.getWe();
+
+    we.plugins['we-passport-oauth2-password'] = we.plugins.project;
+    generateToken = we.plugins['we-passport-oauth2-password'].storage.generateToken;
 
     const userStub = stubs.userStub();
     helpers.createUser(userStub, (err, user)=> {
