@@ -35,6 +35,8 @@ Response example:
 
 ## Configuration
 
+With configuration files:
+
 ```
 // ...
     'oauth2-password-grant': {
