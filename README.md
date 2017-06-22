@@ -33,6 +33,31 @@ Response example:
 }
 ```
 
+## Configuration
+
+```
+// ...
+    'oauth2-password-grant': {
+      storage: 'sequelize', // sequelize || redis
+      redis: {
+        host: null,
+        port: null,
+        password: null
+        // see https://github.com/NodeRedis/node_redis#rediscreateclient for all options
+      }
+    },
+
+    passport: {
+      strategies: {
+        // session
+        'oauth2-password-grant': {
+          expires_in: 1800, // secconds
+        }
+      }
+    }
+// ...
+```
+
 ## ROADMAP
 
 - Add revoke token url
