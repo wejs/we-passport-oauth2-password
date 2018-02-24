@@ -10,16 +10,15 @@
     "uuid": "^3.1.0"
   },
   "devDependencies": {
-    "we-plugin-acl": "^1.2.11",
-    "we-plugin-auth": "^1.2.1",
-    "we-plugin-user": "^1.1.6",
     "express-mysql-session": "^1.2.1",
-    "mysql": "^2.13.0",
     "fs-extra": "^3.0.1",
     "mocha": "^3.4.2",
-    "rimraf": "^2.6.1",
+    "mysql2": "^1.5.2",
     "supertest": "^3.0.0",
-    "we-core": "wejs/we-core",
+    "we-core": "^2",
+    "we-plugin-acl": "^1.2.11",
+    "we-plugin-auth": "^2",
+    "we-plugin-user": "^2",
     "we-test-tools": "wejs/we-test-tools"
   },
   "keywords": [

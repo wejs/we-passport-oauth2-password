@@ -1,5 +1,4 @@
 const projectPath = process.cwd(),
-  deleteDir = require('rimraf'),
   testTools = require('we-test-tools'),
   path = require('path');
 
