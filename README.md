@@ -18,6 +18,7 @@ we i we-passport-oauth2-password
 #### POST /auth/grant-password/authenticate
 
 Body params:
+- grant_type=password
 - username
 - password
 
