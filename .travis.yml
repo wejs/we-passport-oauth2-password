@@ -1,13 +1,10 @@
 language: node_js
 
 node_js:
-  - v6
+  - v10
 
 services:
   - mysql
-
-addons:
-  code_climate:
 
 env:
   NODE_ENV: 'test'
