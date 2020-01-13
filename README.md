@@ -24,7 +24,7 @@ Body params:
 
 Response example:
 
-```js
+```JSON
 {
   token_type: 'passportGrantToken',
   access_token: 'tokenString',
@@ -74,3 +74,7 @@ With configuration files:
 ## Copyright and license
 
 Copyright Alberto Souza <contato@albertosouza.net> and contributors , under [the MIT license](https://github.com/wejs/we-core/blob/master/LICENSE.md).
+
+## Sponsored by
+
+- Linky: http://linkysystems.com
